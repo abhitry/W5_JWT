@@ -1,7 +1,9 @@
 const express=require("express");
 const jwt=require("jsonwebtoken");
+const cors = require("cors"); 
 const app=express();
 app.use(express.json());
+app.use(cors());
 
 let JWT_SECRET="badjbfurntvajkjbeal";
 let users=[];
@@ -56,4 +58,4 @@ app.get("/me",middleware,function(req,res){
         username:founduser.username,password:founduser.password
     })
 })
-app.listen(3000);
+app.listen(3001);

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Website</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"> </script>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+    <p>Signup</p>
+    <input type="text" placeholder="Enter Username" name="" id="u1"> 
+    <input type="text" placeholder="Enter password" name="" id="p1">
+    <button onclick="signup()">Submit</button>
+
+    <p>Signin</p>
+    <input type="text" placeholder="Enter Username" name="" id="u2"> 
+    <input type="text" placeholder="Enter password" name="" id="p2">
+    <button onclick="signin()">Submit</button>
+
+    <p>User Information</p>
+    <div id="info"></div>
+    <button onclick="logout()">Logout</button>
+</body>
+
+<script>
+    async function signup()
+    {
+        const user1=document.querySelector("#u1").value;
+        const pass1=document.querySelector("#p1").value;
+        await axios.post("http://localhost:3001/signup",{username:user1,password:pass1});
+        alert("You are signed up")
+    }
+    async function signin()
+    {
+        const user2=document.querySelector("#u2").value;
+        const pass2=document.querySelector("#p2").value;
+        const respose=await axios.post("http://localhost:3001/signin",{username:user2,password:pass2});
+        localStorage.setItem("token",respose.data.token);
+        alert("You are signed in")
+    }
+    async function getuserinfo() {
+        const respose=await axios.get("http://localhost:3001/me",{headers: {token:localStorage.getItem("token")}} )
+        document.getElementById("info").innerHTML=respose.data.username+respose.data.password;
+    }
+    function getuserinfo() {
+        localStorage.removeItem("token");
+    }
+    getuserinfo()
+</script>
+</html>
